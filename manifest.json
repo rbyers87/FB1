@@ -2,7 +2,7 @@
       "name": "Facebook Mobile",
       "short_name": "FB",
       "start_url": "index.html",
-	    "scope": "https://m.facebook.com",
+	    "scope": "/",
       "display": "standalone",
       "background_color": "#ffffff",
       "theme_color": "#000000",
