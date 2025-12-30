@@ -1,23 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="margin:0;padding:0;height:100%;width:100%;overflow:hidden;">
 <head>
   <meta charset="UTF-8">
-  <!-- Critical: viewport-fit=cover for iOS notch support -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>My PWA</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
-  <link rel="apple-touch-icon" href="icon-192x192.png">
-  
-  <!-- These are important for full-screen PWA -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Changed to translucent -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#000000">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      margin: 0; 
+      padding: 0; 
+      width: 100vw; 
+      height: 100vh; 
+      overflow: hidden; 
+      background: #000;
+    }
+    
+    /* Style for the overlay */
+    .login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .login-button {
+      background: #4285f4;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
 </head>
 <body>
-  <!-- NO whitespace or line breaks around iframe -->
-  <iframe src="https://www.movieboxpro.app/" allowfullscreen sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-  <script src="script.js"></script>
+  <!-- Overlay that shows initially -->
+  <div id="loginOverlay" class="login-overlay">
+    <h2>Login Required</h2>
+    <p>Google login doesn't work in this app. Click below to open the site in a browser window where you can login.</p>
+    <button class="login-button" onclick="openInNewWindow()">Open in Browser</button>
+    <p style="margin-top: 20px; font-size: 14px; opacity: 0.8;">
+      After logging in, return to this app.
+    </p>
+  </div>
+  
+  <!-- Hidden iframe -->
+  <iframe id="appFrame" src="https://www.movieboxpro.app/" style="display:none;"></iframe>
+  
+  <script>
+    function openInNewWindow() {
+      // Open in a new tab/window
+      window.open('https://www.movieboxpro.app/', '_blank');
+      
+      // Optional: Hide overlay after a delay
+      setTimeout(() => {
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('appFrame').style.display = 'block';
+      }, 3000); // Give time for user to switch tabs
+    }
+    
+    // Check if user might be returning from login
+    // You could use localStorage to remember they've logged in
+    window.addEventListener('focus', function() {
+      // When user returns to this tab, show the iframe
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('appFrame').style.display = 'block';
+      // Reload the iframe to refresh login state
+      document.getElementById('appFrame').src = document.getElementById('appFrame').src;
+    });
+  </script>
 </body>
 </html>
