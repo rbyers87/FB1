@@ -2,20 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <!-- Critical: viewport-fit=cover for iOS notch support -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>My PWA</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <link rel="apple-touch-icon" href="icon-192x192.png">
+  
+  <!-- These are important for full-screen PWA -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Changed to translucent -->
+  <meta name="theme-color" content="#000000">
 </head>
 <body>
-  <!-- Wrapper div for full-screen iframe -->
-  <div class="iframe-container">
-    <iframe src="https://www.movieboxpro.app/" allowfullscreen></iframe>
-  </div>
+  <!-- NO whitespace or line breaks around iframe -->
+  <iframe src="https://www.movieboxpro.app/" allowfullscreen sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
   <script src="script.js"></script>
 </body>
 </html>
